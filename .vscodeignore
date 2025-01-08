@@ -1,0 +1,17 @@
+# Exclude unnecessary directories and files
+.vscode/           # Configuración local de VSCode
+.vscode-test/**    # Archivos de prueba específicos de VSCode
+out/**             # Archivos de salida compilados
+node_modules/**    # Dependencias (solo si usas un bundler como esbuild)
+
+# Unnecessary files for the final package
+.vscodeignore
+.yarnrc
+*.cache
+*.log
+*.map
+.eslint.config.mjs
+tsconfig.json
+vsc-extension-quickstart.md
+CHANGELOG.md       # Optional, if not required by the end user
+src/test/**        # Testing code

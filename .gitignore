@@ -1,0 +1,30 @@
+# Node.js dependencies
+node_modules/
+
+# Build output
+out/
+dist/
+
+# VSCode test files
+.vscode-test/
+
+# OS-specific files
+.DS_Store
+
+# Binary or cache files (if applicable to your project)
+binaries/
+assistant-cache/
+assistant-binaries/
+
+# IDE-specific files
+.idea/
+*.iml
+
+# Sensitive files
+auth
+registration_key
+sig
+
+# Miscellaneous
+**/assistant-cache
+**/assistant-binaries
