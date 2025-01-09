@@ -1,8 +1,115 @@
 {
+  "name": "mai-copilot-vscode",
+  "displayName": "MAI Copilot",
+  "description": "MAI powered development for VS Code. Your AI, your rules.",
+  "version": "0.1.0",
+  "publisher": "JuanGCarmona",
+  "icon": "resources/small-logo.png",
+  "homepage": "https://jgcarmona.com",
+  "repository": {
+    "url": "https://github.com/juangcarmona/mai-copilot-vscode",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/juangcarmona/mai-copilot-vscode/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Machine Learning",
+    "Programming Languages",
+    "AI"
+  ],
+  "keywords": [
+    "code",
+    "assistant",
+    "ai",
+    "development",
+    "mai",
+    "copilot"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mai-copilot-vscode.logWorkspaceInfo",
+        "title": "Log Workspace Info"
+      },
+      {
+        "command": "mai-copilot-vscode.helloWorld",
+        "title": "Say Hello from MAI Copilot"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "maiCopilot",
+          "title": "MAI Copilot",
+          "icon": "resources/mai-copilot-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "maiCopilot": [
+        {
+          "id": "maiView",
+          "name": "Copilot View"
+        }
+      ]
+    },
+    "configuration": [
+      {
+        "title": "MAI Copilot Settings",
+        "properties": {
+          "maiCopilot.apiToken": {
+            "type": "string",
+            "default": "",
+            "description": "API Token for authenticating with MAI Copilot."
+          },
+          "maiCopilot.endpoint": {
+            "type": "string",
+            "default": "https://api.jgcarmona.com",
+            "description": "Base URL for the MAI Copilot API."
+          },
+          "maiCopilot.enableAutoSuggest": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable automatic AI code suggestions."
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
   "dependencies": {
-    "@angular/cli": "^19.0.6",
-    "@vscode/vsce": "^2.32.0",
-    "generator-code": "^1.11.5",
-    "yo": "^5.1.0"
+    "undici": "^6.6.2",
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.82.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.23.0",
+    "eslint": "^8.56.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.3.0",
+    "ovsx": "^0.8.3",
+    "typescript": "^5.3.3"
   }
 }
