@@ -9,9 +9,18 @@
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
 			"outFiles": [
-				"${workspaceFolder}/dist/**/*.js"
+				"${workspaceFolder}/out/**/*.js"
 			],
 			"preLaunchTask": "${defaultBuildTask}"
+		},
+		{
+		  "name": "Debug Tests",
+		  "type": "node",
+		  "request": "launch",
+		  "program": "${workspaceFolder}/out/test/runTest.js",
+		  "outFiles": [
+			"${workspaceFolder}/out/test/**/*.js"
+		  ]
 		}
 	]
 }

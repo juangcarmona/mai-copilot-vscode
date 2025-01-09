@@ -1,40 +1,34 @@
 import * as path from 'path';
 import * as Mocha from 'mocha';
-import * as glob from 'glob';
+import { glob } from 'glob';
 
-export function run(): Promise<void> {
-	// Create the mocha test
-	const mocha = new Mocha({
-		ui: 'tdd',
-		color: true
-	});
+export async function run(): Promise<void> {
+    const mocha = new Mocha({
+        ui: 'tdd',
+        color: true
+    });
 
-	const testsRoot = path.resolve(__dirname, '..');
+    const testsRoot = path.resolve(__dirname, '..');
 
-	return new Promise((c, e) => {
-		const testFiles = new glob.Glob("**/**.test.js", { cwd: testsRoot });
-		const testFileStream = testFiles.stream();
+    try {
+        // Usa la API de promesas de glob
+        const files = await glob('**/**.test.js', { cwd: testsRoot });
 
-		testFileStream.on("data", (file) => {
-			mocha.addFile(path.resolve(testsRoot, file));
-		});
-		testFileStream.on("error", (err) => {
-			e(err);
-		});
-		testFileStream.on("end", () => {
-			try {
-				// Run the mocha test
-				mocha.run(failures => {
-					if (failures > 0) {
-						e(new Error(`${failures} tests failed.`));
-					} else {
-						c();
-					}
-				});
-			} catch (err) {
-				console.error(err);
-				e(err);
-			}
-		});
-	});
+        // Agrega cada archivo encontrado a Mocha
+        files.forEach(file => mocha.addFile(path.resolve(testsRoot, file)));
+
+        // Ejecuta los tests
+        await new Promise((resolve, reject) => {
+            mocha.run(failures => {
+                if (failures > 0) {
+                    reject(new Error(`${failures} tests failed.`));
+                } else {
+                    resolve(null);
+                }
+            });
+        });
+    } catch (err) {
+        console.error('Error while running tests:', err);
+        throw err;
+    }
 }
