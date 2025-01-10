@@ -1,81 +1,147 @@
-# mai-copilot-vscode
+# MAI Copilot for VSCode
 
-VSCode extension to integrate MAI Copilot API for AI-powered code completion and enhanced development workflows.
-
-## Build and Watch with esbuild
-
-To build and watch the extension using `esbuild`, ensure you have the required setup:
-
-1. **Install the required problem matcher:**
-   Install the recommended extension for `esbuild` problem matchers:
-   ```bash
-   code --install-extension connor4312.esbuild-problem-matchers
-   ```
-2. **Start the task: Run the build task in VSCode:**
-
-- Open the command palette: Ctrl+Shift+P or Cmd+Shift+P.
-- Select Run Task.
-- Choose the esbuild task.
-
-The build process will run in the background, will open a vscode instance and you can see output or errors in the terminal of current vscode instance.
-
-## Features
-[TODO]
-
-Describe specific features of this extension including screenshots of this extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under this extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off this extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-[TODO]
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-[TODO]
-
-Include if this extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-[TODO]
-
-Calling out known issues can help limit users opening duplicate issues against this extension.
-
-## Release Notes
-[TODO]
-
-Users appreciate release notes as you update this extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+**MAI Copilot** is a Visual Studio Code extension designed to integrate the MAI Copilot API, empowering developers with AI-driven code suggestions and enhanced workflows. **Your AI, your rules.**
 
 ---
 
-## Following extension guidelines
-[TODO]
+## Getting Started
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating this extension.
+### Prerequisites
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+- **Visual Studio Code** version 1.82.0 or higher.
+- **Node.js** version 16 or higher.
+- [MAI Copilot API credentials](#configuration).
 
-**Enjoy!**
+### Installation
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/juangcarmona/mai-copilot-vscode.git
+   cd mai-copilot-vscode
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Build the extension:
+   ```bash
+   npm run build
+   ```
+
+4. Launch the extension in a new VSCode instance:
+   ```bash
+   code .
+   ```
+   Then press `F5` to start debugging.
+
+---
+
+## Features
+
+- **AI-Powered Suggestions**: Real-time code suggestions tailored to your coding context.
+- **Customizable Models**: Easily switch between supported models such as Starcoder, CodeLlama, and others.
+- **Workspace Insights**: Log workspace and active file details for better context management.
+- **User Personalization**: Customize prompts, model configurations, and more through settings.
+
+---
+
+## Configuration
+
+MAI Copilot offers a range of customizable settings:
+
+- **API Token**: Required for authentication.
+- **Endpoint URL**: Set the base URL for the MAI Copilot API.
+- **Auto Suggestion**: Enable or disable automatic suggestions.
+
+### Example Configuration
+Add the following settings in your `settings.json`:
+
+```json
+{
+  "maiCopilot.apiToken": "your-api-token",
+  "maiCopilot.endpoint": "https://api.jgcarmona.com",
+  "maiCopilot.enableAutoSuggest": true
+}
+```
+
+---
+
+## Development Workflow
+
+### Building and Watching
+
+1. Install the esbuild problem matcher for better debugging:
+   ```bash
+   code --install-extension connor4312.esbuild-problem-matchers
+   ```
+
+2. Run the build task in VSCode:
+   - Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`).
+   - Select **Run Task** and choose `esbuild`.
+
+   This will automatically rebuild the extension and output logs/errors in the terminal.
+
+### Debugging
+
+1. Configure the extension to launch in a specific folder:
+   Edit `.vscode/launch.json` and set your desired `workspaceFolder`.
+
+2. Start debugging:
+   Press `F5` to launch the extension in a new VSCode instance.
+
+### Testing
+
+Run unit tests:
+```bash
+npm run test
+```
+
+---
+
+## Roadmap
+
+1. **Initialization Enhancements**:
+   - Refactor the initialization process for better dependency management.
+2. **Extended User Customization**:
+   - Add settings for prompt templates, folder structures, and model-specific options.
+3. **Advanced Debugging**:
+   - Streamline debugging workflows and add more developer tools.
+
+---
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4. Push to your branch:
+   ```bash
+   git push origin feature/your-feature
+   ```
+5. Open a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Contact
+
+For questions, issues, or feedback:
+
+- **Author**: Juan G. Carmona
+- **GitHub**: [juangcarmona](https://github.com/juangcarmona)
+- **Website**: [jgcarmona.com](https://jgcarmona.com)

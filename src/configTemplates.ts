@@ -1,4 +1,12 @@
-const templateKeys = ["hf/bigcode/starcoder2-15b", "hf/codellama/CodeLlama-13b-hf", "hf/Phind/Phind-CodeLlama-34B-v2", "hf/WizardLM/WizardCoder-Python-34B-V1.0", "ollama/codellama:7b", "hf/deepseek-ai/deepseek-coder-6.7b-base", "Custom"] as const;
+const templateKeys = [ 
+	"hf/bigcode/starcoder2-15b", 
+	"hf/codellama/CodeLlama-13b-hf", 
+	"hf/Phind/Phind-CodeLlama-34B-v2", "hf/WizardLM/WizardCoder-Python-34B-V1.0", 
+	"ollama/codellama:7b", 
+	"hf/deepseek-ai/deepseek-coder-6.7b-base", 
+	"Custom"
+] as const;
+
 export type TemplateKey = typeof templateKeys[number];
 
 export interface TokenizerPathConfig {
@@ -48,7 +56,7 @@ const HfStarCoder215BConfig: Config = {
 	tokenizer: {
 		repository: "bigcode/starcoder2-15b",
 	}
-}
+};
 
 const HfCodeLlama13BConfig: Config = {
 	modelId: "codellama/CodeLlama-13b-hf",
@@ -70,7 +78,7 @@ const HfCodeLlama13BConfig: Config = {
 	tokenizer: {
 		repository: "codellama/CodeLlama-13b-hf",
 	}
-}
+};
 
 const HfDeepSeekConfig: Config = {
 	modelId: "deepseek-ai/deepseek-coder-6.7b-base",
@@ -96,20 +104,20 @@ const HfDeepSeekConfig: Config = {
 			top_p: 0.95
 		}
 	}
-}
+};
 
 const HfPhindCodeLlama34Bv2Config: Config = {
-    ...HfCodeLlama13BConfig,
-    modelId: "Phind/Phind-CodeLlama-34B-v2",
-}
+	...HfCodeLlama13BConfig,
+	modelId: "Phind/Phind-CodeLlama-34B-v2",
+};
 
 const HfWizardCoderPython34Bv1Config: Config = {
 	...HfCodeLlama13BConfig,
-    modelId: "WizardLM/WizardCoder-Python-34B-V1.0",
-    tokenizer: {
-    	repository: "WizardLM/WizardCoder-Python-34B-V1.0",
-    }
-}
+	modelId: "WizardLM/WizardCoder-Python-34B-V1.0",
+	tokenizer: {
+		repository: "WizardLM/WizardCoder-Python-34B-V1.0",
+	}
+};
 
 const OllamaCodeLlama7BConfig: Config = {
 	...HfCodeLlama13BConfig,
@@ -127,14 +135,13 @@ const OllamaCodeLlama7BConfig: Config = {
 	tokenizer: {
 		repository: "codellama/CodeLlama-7b-hf",
 	}
-}
-
+};
 
 export const templates: Partial<Record<TemplateKey, Config>> = {
 	"hf/bigcode/starcoder2-15b": HfStarCoder215BConfig,
 	"hf/codellama/CodeLlama-13b-hf": HfCodeLlama13BConfig,
 	"hf/Phind/Phind-CodeLlama-34B-v2": HfPhindCodeLlama34Bv2Config,
 	"hf/WizardLM/WizardCoder-Python-34B-V1.0": HfWizardCoderPython34Bv1Config,
-    "hf/deepseek-ai/deepseek-coder-6.7b-base": HfDeepSeekConfig,
+	"hf/deepseek-ai/deepseek-coder-6.7b-base": HfDeepSeekConfig,
 	"ollama/codellama:7b": OllamaCodeLlama7BConfig,
-}
+};

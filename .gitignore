@@ -5,6 +5,10 @@ node_modules/
 out/
 dist/
 
+# Ignore all .js and .map files in src and its subdirectories
+src/**/*.js
+src/**/*.map
+
 # VSCode test files
 .vscode-test/
 
