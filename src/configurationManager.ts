@@ -8,6 +8,12 @@ const DEFAULT_CONFIG = {
         level: 'debug', // default log level
         enabled: true, // enable or disable logging
     },
+
+    ai: {
+        enableAutoSuggest: true,
+        requestDelay: 500, // Time in milliseconds between requests
+        modelId: 'hf/bigcode/starcoder2-15b',
+    },
 };
 
 export class ConfigurationManager {

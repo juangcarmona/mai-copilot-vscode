@@ -47,6 +47,10 @@
       {
         "command": "mai.updatePanel",
         "title": "MAI: Update Panel"
+      },
+      {
+        "command": "mai.afterInsert",
+        "title": "MAI: Handle After Insert"
       }
     ],
     "viewsContainers": {
@@ -65,6 +69,33 @@
           "name": "MAI Panel"
         }
       ]
+    },
+    "properties": {
+      "mai.api.baseUrl": {
+        "type": "string",
+        "default": "http://0.0.0.0",
+        "description": "Base URL of the MAI Copilot API."
+      },
+      "mai.api.port": {
+        "type": "number",
+        "default": 8000,
+        "description": "Port number for the MAI Copilot API."
+      },
+      "mai.api.completionEndpoint": {
+        "type": "string",
+        "default": "/api/generate/",
+        "description": "Endpoint for the completion API."
+      },
+      "mai.model": {
+        "type": "string",
+        "default": "gpt2",
+        "description": "Default model used for generating completions."
+      },
+      "mai.requestDelay": {
+        "type": "number",
+        "default": 500,
+        "description": "Delay (in milliseconds) before sending API requests."
+      }
     }
   },
   "scripts": {

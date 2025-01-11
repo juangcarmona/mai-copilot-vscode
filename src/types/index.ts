@@ -3,3 +3,13 @@ export interface LogEntry {
     event: string;
     filePath: string;
 }
+
+
+export interface Completion {
+    generated_text: string;
+}
+
+export interface CompletionResponse {
+    request_id: string;
+    completions: Completion[];
+}

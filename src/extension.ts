@@ -5,6 +5,8 @@ import { initializeFileManager } from './workers/fileManager';
 import { initializeEventLogger } from './workers/eventLogger';
 import { Logger } from './logger';
 import { MaiPanel } from './views/maiPanel';
+import { maiCodeCompletionProvider} from './workers/codeCompletionProvider';
+import { CompletionResponse } from './types';
 
 export async function activate(context: vscode.ExtensionContext) {
     Logger.info('MAI Copilot extension is now active!');
@@ -24,11 +26,18 @@ export async function activate(context: vscode.ExtensionContext) {
     // Initialize event logger
     initializeEventLogger(context, workspaceFolder);
 
-	// Registra comandos
+	const config = vscode.workspace.getConfiguration('mai');
+    const documentFilter = config.get('documentFilter') as vscode.DocumentFilter | vscode.DocumentFilter[];
+
+    vscode.languages.registerInlineCompletionItemProvider(documentFilter, maiCodeCompletionProvider);
+
+
+	// Register Commands
 	const helloWorldCommand = vscode.commands.registerCommand('mai.helloWorld', () => {
 		vscode.window.showInformationMessage('Hello from MAI Copilot!');
 	});
-
+	context.subscriptions.push(helloWorldCommand);
+	
 	const logWorkspaceInfoCommand = vscode.commands.registerCommand('mai.logWorkspaceInfo', () => {
 		const workspaceFolders = vscode.workspace.workspaceFolders;
 		const activeEditor = vscode.window.activeTextEditor;
@@ -47,16 +56,17 @@ export async function activate(context: vscode.ExtensionContext) {
 			vscode.window.showWarningMessage('No active file is open.');
 		}
 	});
+	context.subscriptions.push(logWorkspaceInfoCommand);
 
-	context.subscriptions.push(helloWorldCommand, logWorkspaceInfoCommand);
+	const afterInsertCommand = vscode.commands.registerCommand('mai.afterInsert', async (response: CompletionResponse) => {
+		Logger.info(`Accepted suggestion: ${response.completions[0].generated_text}`);
+	});	
+	context.subscriptions.push(afterInsertCommand);
 
 	// Initialize Main Panel
 	MaiPanel.initialize(context);
 
 	Logger.info('MAI is Up & Running');
-	Logger.debug('This is a debug message.');
-	Logger.error('This is an error message.');
-	Logger.warn('This is a warning message.');
 }
 
 export function deactivate() {
