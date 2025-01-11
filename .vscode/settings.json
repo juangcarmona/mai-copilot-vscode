@@ -30,6 +30,8 @@
         "dist": true, // set this to true to hide the "dist" folder with the compiled JS files
         "node_modules": true, // set this to false to show the "node_moduels" folder
         ".vscode-test": true, // set this to false to show the ".vscode-test" folder
+        "src/**.js": true, // set this to false to include .js files within "src" folder in search results
+        "src/**.map": true, // set this to false to include .map files within  "src" folder in search results
     },
     "search.exclude": {
         "out": true, // set this to false to include "out" folder in search results

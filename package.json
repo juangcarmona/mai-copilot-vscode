@@ -37,19 +37,23 @@
   "contributes": {
     "commands": [
       {
-        "command": "mai-copilot-vscode.logWorkspaceInfo",
-        "title": "Log Workspace Info"
+        "command": "mai.helloWorld",
+        "title": "MAI: Say Hello"
       },
       {
-        "command": "mai-copilot-vscode.helloWorld",
-        "title": "Say Hello from MAI Copilot"
+        "command": "mai.logWorkspaceInfo",
+        "title": "MAI: Log Workspace Info"
+      },
+      {
+        "command": "mai.updatePanel",
+        "title": "MAI: Update Panel"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
           "id": "maiCopilot",
-          "title": "MAI Copilot",
+          "title": "MAI",
           "icon": "resources/mai-copilot-icon.svg"
         }
       ]
@@ -58,32 +62,10 @@
       "maiCopilot": [
         {
           "id": "maiView",
-          "name": "Copilot View"
+          "name": "MAI Panel"
         }
       ]
-    },
-    "configuration": [
-      {
-        "title": "MAI Copilot Settings",
-        "properties": {
-          "maiCopilot.apiToken": {
-            "type": "string",
-            "default": "",
-            "description": "API Token for authenticating with MAI Copilot."
-          },
-          "maiCopilot.endpoint": {
-            "type": "string",
-            "default": "https://api.jgcarmona.com",
-            "description": "Base URL for the MAI Copilot API."
-          },
-          "maiCopilot.enableAutoSuggest": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable automatic AI code suggestions."
-          }
-        }
-      }
-    ]
+    }
   },
   "scripts": {
     "build": "tsc -p ./",
@@ -92,25 +74,19 @@
     "test": "npm run compile && node ./out/test/runTest.js"
   },
   "dependencies": {
+    "@types/minimatch": "^5.1.2",
     "@vscode/test-cli": "^0.0.10",
     "lru-cache": "^9.1.1",
-    "undici": "^6.6.2",
+    "minimatch": "^3.1.2",
     "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
-    "@types/chai": "^5.0.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "16.x",
-    "@types/vscode": "^1.82.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@types/vscode": "^1.96.0",
     "@vscode/test-electron": "^2.4.1",
-    "@vscode/vsce": "^2.23.0",
-    "chai": "^5.1.2",
-    "eslint": "^8.56.0",
     "glob": "^11.0.0",
-    "mocha": "^10.8.2",
-    "ovsx": "^0.8.3",
-    "typescript": "^5.3.3"
+    "mocha": "^11.0.1",
+    "typescript": "^5.7.3"
   }
 }

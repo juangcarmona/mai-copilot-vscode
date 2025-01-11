@@ -1,20 +1,37 @@
 # MAI Copilot for VSCode
-
-**MAI Copilot** is a Visual Studio Code extension designed to integrate the MAI Copilot API, empowering developers with AI-driven code suggestions and enhanced workflows. **Your AI, your rules.**
+> [!IMPORTANT]
+> 🚧 **Work in Progress**: This extension is under active development and may not work as expected. Use at your own risk! 🚧
 
 ---
 
-## Getting Started
+## **About the Project**
 
-### Prerequisites
+**MAI Copilot** aims to be a lightweight and efficient VSCode extension to assist developers with contextual AI-driven features, such as:
 
-- **Visual Studio Code** version 1.82.0 or higher.
-- **Node.js** version 16 or higher.
-- [MAI Copilot API credentials](#configuration).
+- Real-time code completion.
+- Context-aware AI chat.
+- Commit message generation based on pending changes.
 
-### Installation
+The primary goal is to leverage project and file-level information directly from your workspace to enhance the quality of AI prompts and outputs. This includes insights like:
 
-1. Clone this repository:
+- Current file and cursor position.
+- Recently modified files.
+- Project structure and relevant metadata.
+
+**Your AI, your rules.** Build your workflow around what works best for you.
+
+---
+
+## **Getting Started**
+
+### **Prerequisites**
+
+- Visual Studio Code version 1.82.0 or higher.
+- Node.js version 16 or higher.
+
+### **Installation**
+
+1. Clone the repository:
    ```bash
    git clone https://github.com/juangcarmona/mai-copilot-vscode.git
    cd mai-copilot-vscode
@@ -25,12 +42,7 @@
    npm install
    ```
 
-3. Build the extension:
-   ```bash
-   npm run build
-   ```
-
-4. Launch the extension in a new VSCode instance:
+3. Launch the extension in a new VSCode instance:
    ```bash
    code .
    ```
@@ -38,85 +50,53 @@
 
 ---
 
-## Features
+## **Core Features**
 
-- **AI-Powered Suggestions**: Real-time code suggestions tailored to your coding context.
-- **Customizable Models**: Easily switch between supported models such as Starcoder, CodeLlama, and others.
-- **Workspace Insights**: Log workspace and active file details for better context management.
-- **User Personalization**: Customize prompts, model configurations, and more through settings.
+1. **Contextual AI Suggestions**
+   - Understand the project context (open files, recent edits, etc.) to generate tailored code suggestions.
 
----
+2. **Chat with Context** *(Planned)*
+   - Have AI-powered discussions directly in VSCode, using workspace and project data for better responses.
 
-## Configuration
+3. **Commit Message Generator** *(Planned)*
+   - Generate meaningful commit messages by analyzing changes in your project.
 
-MAI Copilot offers a range of customizable settings:
-
-- **API Token**: Required for authentication.
-- **Endpoint URL**: Set the base URL for the MAI Copilot API.
-- **Auto Suggestion**: Enable or disable automatic suggestions.
-
-### Example Configuration
-Add the following settings in your `settings.json`:
-
-```json
-{
-  "maiCopilot.apiToken": "your-api-token",
-  "maiCopilot.endpoint": "https://api.jgcarmona.com",
-  "maiCopilot.enableAutoSuggest": true
-}
-```
+4. **Logs and Insights** *(In Progress)*
+   - Use a `.mai` folder in the workspace to store:
+     - Recent file activity.
+     - Project metadata.
+     - Temporary logs for AI request optimization.
 
 ---
 
-## Development Workflow
+## **File System Design**
 
-### Building and Watching
+The extension uses a `.mai` folder in the workspace to maintain:
 
-1. Install the esbuild problem matcher for better debugging:
-   ```bash
-   code --install-extension connor4312.esbuild-problem-matchers
-   ```
+- **Logs**: Stored in `.mai/logs/events.log` to track file events and workspace activities.
+- **Settings**: Default configuration saved in `.mai/settings.json`.
+- **Metadata**: Includes project structure and recent activity insights.
 
-2. Run the build task in VSCode:
-   - Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`).
-   - Select **Run Task** and choose `esbuild`.
-
-   This will automatically rebuild the extension and output logs/errors in the terminal.
-
-### Debugging
-
-1. Configure the extension to launch in a specific folder:
-   Edit `.vscode/launch.json` and set your desired `workspaceFolder`.
-
-2. Start debugging:
-   Press `F5` to launch the extension in a new VSCode instance.
-
-### Testing
-
-Run unit tests:
-```bash
-npm run test
-```
+This design ensures better context handling and user control without cluttering the main workspace.
 
 ---
 
-## Roadmap
+## **Roadmap**
 
-1. **Initialization Enhancements**:
-   - Refactor the initialization process for better dependency management.
-2. **Extended User Customization**:
-   - Add settings for prompt templates, folder structures, and model-specific options.
-3. **Advanced Debugging**:
-   - Streamline debugging workflows and add more developer tools.
+- [ ] **Basic Functionality**: Code completion and contextual suggestions.
+- [ ] **Workspace Insights**: Better parsing of project structure and activity logs.
+- [ ] **Chat Integration**: Enable AI chat features within VSCode.
+- [ ] **Extended Customization**: Allow users to define prompt templates and AI behavior.
+- [ ] **Hugging Face API Support** *(Potential Feature)*: Integrate with Hugging Face models for advanced users.
 
 ---
 
-## Contributing
+## **Contributing**
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! To get started:
 
-1. Fork the repository.
-2. Create a feature branch:
+1. Fork this repository.
+2. Create a new branch for your feature:
    ```bash
    git checkout -b feature/your-feature
    ```
@@ -124,7 +104,7 @@ Contributions are welcome! Please follow these steps:
    ```bash
    git commit -m "Add your feature"
    ```
-4. Push to your branch:
+4. Push to the branch:
    ```bash
    git push origin feature/your-feature
    ```
@@ -132,15 +112,15 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## License
+## **License**
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Contact
+## **Contact**
 
-For questions, issues, or feedback:
+For questions or feedback:
 
 - **Author**: Juan G. Carmona
 - **GitHub**: [juangcarmona](https://github.com/juangcarmona)
