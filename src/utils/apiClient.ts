@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
 export interface GenerateRequest {
     model: string;
@@ -29,7 +29,7 @@ export class ApiClient {
         return `${this.baseUrl}:${this.port}${this.completionEndpoint}`;
     }
 
-    async generateCode(request: GenerateRequest, token?: vscode.CancellationToken): Promise<GenerateResponse> {
+    async generateCode(request: GenerateRequest): Promise<GenerateResponse> {
         const url = this.getFullUrl();
         try {
             const response = await fetch(url, {
@@ -38,7 +38,6 @@ export class ApiClient {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(request),
-                signal: token?.onCancellationRequested ? AbortSignal.timeout(0) : undefined,
             });
 
             if (!response.ok) {

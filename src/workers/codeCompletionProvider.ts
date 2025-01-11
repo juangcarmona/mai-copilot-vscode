@@ -33,7 +33,7 @@ export const maiCodeCompletionProvider: vscode.InlineCompletionItemProvider = {
         };
 
         // Call the API
-        const response = await client.generateCode(request, token);
+        const response = await client.generateCode(request);
         if (response.status !== 200) {
             vscode.window.showErrorMessage(`Error generating code: ${response.error || "Unknown error"}`);
             return;
