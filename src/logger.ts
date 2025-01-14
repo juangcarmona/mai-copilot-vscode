@@ -3,8 +3,14 @@ import * as vscode from 'vscode';
 export class Logger {
     private static instance: Logger | null = null;
     private outputChannel: vscode.OutputChannel;
+    private loggingEnabled: boolean;
+    private logLevel: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
 
     private constructor(private name: string) {
+        const config = vscode.workspace.getConfiguration('mai');
+        this.loggingEnabled = config.get<boolean>('logging.enabled') ?? true;
+        this.logLevel = (config.get<string>('logging.level') as 'DEBUG' | 'INFO' | 'WARN' | 'ERROR') || 'INFO';
+        
         this.outputChannel = vscode.window.createOutputChannel(this.name);
     }
 
@@ -16,6 +22,10 @@ export class Logger {
     }
 
     private log(level: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR', message: string) {
+        if (!this.loggingEnabled || !this.shouldLog(level)) {
+            return;
+        }
+
         const timestamp = new Date().toISOString();
         const icon = {
             DEBUG: '🐛',
@@ -31,6 +41,11 @@ export class Logger {
         if (level === 'WARN' || level === 'ERROR') {
             this.outputChannel.show(true);
         }
+    }
+
+    private shouldLog(level: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR'): boolean {
+        const levels = ['DEBUG', 'INFO', 'WARN', 'ERROR'];
+        return levels.indexOf(level) >= levels.indexOf(this.logLevel);
     }
 
     public static debug(message: string) {

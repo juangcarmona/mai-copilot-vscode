@@ -70,33 +70,89 @@
         }
       ]
     },
-    "properties": {
-      "mai.api.baseUrl": {
-        "type": "string",
-        "default": "http://0.0.0.0",
-        "description": "Base URL of the MAI Copilot API."
+    "configuration": [
+      {
+        "title": "MAI Copilot API Settings",
+        "properties": {
+          "mai.api.baseUrl": {
+            "type": "string",
+            "default": "http://127.0.0.1",
+            "description": "Base URL of the MAI Copilot API."
+          },
+          "mai.api.port": {
+            "type": "number",
+            "default": 1234,
+            "description": "Port number for the MAI Copilot API."
+          },
+          "mai.api.completionEndpoint": {
+            "type": "string",
+            "default": "/v1/completions/",
+            "description": "Endpoint for the completion API."
+          }
+        }
       },
-      "mai.api.port": {
-        "type": "number",
-        "default": 8000,
-        "description": "Port number for the MAI Copilot API."
+      {
+        "title": "MAI Copilot Completion Settings",
+        "properties": {
+          "mai.model": {
+            "type": "string",
+            "default": "hf/deepseek-ai/deepseek-coder-6.7b-base",
+            "description": "Default model used for generating completions. Choose from the supported models."
+          },
+          "mai.requestDelay": {
+            "type": "number",
+            "default": 500,
+            "description": "Delay (in milliseconds) before sending API requests."
+          },
+          "mai.completion.maxTokens": {
+            "type": "number",
+            "default": 50,
+            "description": "Maximum number of tokens to generate in completions."
+          },
+          "mai.completion.temperature": {
+            "type": "number",
+            "default": 0.7,
+            "description": "Temperature parameter to control the randomness of completions."
+          },
+          "mai.completion.topP": {
+            "type": "number",
+            "default": 0.95,
+            "description": "Top-p parameter for nucleus sampling."
+          },
+          "mai.completion.documentFilter": {
+            "type": [
+              "object",
+              "array"
+            ],
+            "default": {
+              "pattern": "**/*.{js,ts,py,java}"
+            },
+            "description": "Filter documents to enable inline completions for. Defaults to common programming languages."
+          }
+        }
       },
-      "mai.api.completionEndpoint": {
-        "type": "string",
-        "default": "/api/generate/",
-        "description": "Endpoint for the completion API."
-      },
-      "mai.model": {
-        "type": "string",
-        "default": "gpt2",
-        "description": "Default model used for generating completions."
-      },
-      "mai.requestDelay": {
-        "type": "number",
-        "default": 500,
-        "description": "Delay (in milliseconds) before sending API requests."
+      {
+        "title": "MAI Copilot Logging Settings",
+        "properties": {
+          "mai.logging.level": {
+            "type": "string",
+            "default": "info",
+            "enum": [
+              "debug",
+              "info",
+              "warn",
+              "error"
+            ],
+            "description": "Set the logging level for MAI Copilot."
+          },
+          "mai.logging.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable or disable logging."
+          }
+        }
       }
-    }
+    ]
   },
   "scripts": {
     "build": "tsc -p ./",
@@ -109,15 +165,16 @@
     "@vscode/test-cli": "^0.0.10",
     "lru-cache": "^9.1.1",
     "minimatch": "^3.1.2",
+    "undici": "^6.21.0",
     "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
-    "@types/form-data": "^2.2.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "16.x",
     "@types/node-fetch": "^2.6.12",
     "@types/vscode": "^1.96.0",
     "@vscode/test-electron": "^2.4.1",
+    "axios": "^1.7.9",
     "glob": "^11.0.0",
     "mocha": "^11.0.1",
     "typescript": "^5.7.3"

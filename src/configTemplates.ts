@@ -29,8 +29,8 @@ export interface Config {
 	"fillInTheMiddle.enabled": boolean;
 	"fillInTheMiddle.prefix": string;
 	"fillInTheMiddle.middle": string;
-	"fillInTheMiddle.suffix": string;
-	requestBody: object;
+	"fillInTheMiddle.suffix": string;    
+	requestBody: RequestBody;
 	contextWindow: number;
 	tokensToClear: string[];
 	tokenizer: TokenizerPathConfig | TokenizerRepoConfig | TokenizerUrlConfig | null;
@@ -137,11 +137,27 @@ const OllamaCodeLlama7BConfig: Config = {
 	}
 };
 
-export const templates: Partial<Record<TemplateKey, Config>> = {
-	"hf/bigcode/starcoder2-15b": HfStarCoder215BConfig,
-	"hf/codellama/CodeLlama-13b-hf": HfCodeLlama13BConfig,
-	"hf/Phind/Phind-CodeLlama-34B-v2": HfPhindCodeLlama34Bv2Config,
-	"hf/WizardLM/WizardCoder-Python-34B-V1.0": HfWizardCoderPython34Bv1Config,
-	"hf/deepseek-ai/deepseek-coder-6.7b-base": HfDeepSeekConfig,
-	"ollama/codellama:7b": OllamaCodeLlama7BConfig,
+export type RequestBody =
+    | {
+          parameters: {
+              max_new_tokens: number;
+              temperature: number;
+              top_p: number;
+          };
+      }
+    | {
+          options: {
+              num_predict: number;
+              temperature: number;
+              top_p: number;
+          };
+      };
+
+export const templates: Record<string, Config | undefined> = {
+    "hf/bigcode/starcoder2-15b": HfStarCoder215BConfig,
+    "hf/codellama/CodeLlama-13b-hf": HfCodeLlama13BConfig,
+    "hf/Phind/Phind-CodeLlama-34B-v2": HfPhindCodeLlama34Bv2Config,
+    "hf/WizardLM/WizardCoder-Python-34B-V1.0": HfWizardCoderPython34Bv1Config,
+    "hf/deepseek-ai/deepseek-coder-6.7b-base": HfDeepSeekConfig,
+    "ollama/codellama:7b": OllamaCodeLlama7BConfig,
 };

@@ -1,5 +1,8 @@
+.mai/
+
 # Node.js dependencies
 node_modules/
+
 
 # Build output
 out/

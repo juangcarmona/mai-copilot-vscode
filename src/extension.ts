@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 
-import { configurationManager } from './configurationManager';
 import { initializeFileManager } from './workers/fileManager';
 import { initializeEventLogger } from './workers/eventLogger';
 import { Logger } from './logger';
@@ -27,10 +26,14 @@ export async function activate(context: vscode.ExtensionContext) {
     initializeEventLogger(context, workspaceFolder);
 
 	const config = vscode.workspace.getConfiguration('mai');
-    const documentFilter = config.get('documentFilter') as vscode.DocumentFilter | vscode.DocumentFilter[];
+	const documentFilter = config.get<vscode.DocumentFilter | vscode.DocumentFilter[]>(
+		'completion.documentFilter'
+	) || { pattern: '**' }; // Fallback to match all files
 
-    vscode.languages.registerInlineCompletionItemProvider(documentFilter, maiCodeCompletionProvider);
-
+	vscode.languages.registerInlineCompletionItemProvider(
+		{ scheme: "file", pattern: "**/*" },
+		maiCodeCompletionProvider
+	);
 
 	// Register Commands
 	const helloWorldCommand = vscode.commands.registerCommand('mai.helloWorld', () => {

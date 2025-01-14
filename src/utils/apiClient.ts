@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import fetch from "node-fetch";
+import axios from 'axios';
+import { Logger } from '../logger';
 
 export interface GenerateRequest {
     model: string;
@@ -19,7 +20,9 @@ export class ApiClient {
     private completionEndpoint: string;
 
     constructor() {
-        const config = vscode.workspace.getConfiguration("maiCopilot");
+        Logger.debug('ApiClient');
+        const config = vscode.workspace.getConfiguration("mai");
+        Logger.debug(`ApiClient Config: ${config}`);
         this.baseUrl = config.get<string>("api.baseUrl") || "http://0.0.0.0";
         this.port = config.get<number>("api.port") || 8000;
         this.completionEndpoint = config.get<string>("api.completionEndpoint") || "/api/generate/";
@@ -32,21 +35,18 @@ export class ApiClient {
     async generateCode(request: GenerateRequest): Promise<GenerateResponse> {
         const url = this.getFullUrl();
         try {
-            const response = await fetch(url, {
-                method: "POST",
+            const response = await axios.post<GenerateResponse>(url, request, {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(request),
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
-            }
-
-            return (await response.json()) as GenerateResponse;
-        } catch (error) {
-            return { generated_text: "", status: 500, error: (error as Error).message };
+            return response.data;
+        } catch (error: any) {
+            return {
+                generated_text: "",
+                status: error.response?.status || 500,
+                error: error.message,
+            };
         }
     }
 }
