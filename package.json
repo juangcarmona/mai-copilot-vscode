@@ -37,8 +37,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "mai.helloWorld",
-        "title": "MAI: Say Hello"
+        "command": "mai.openConfigurationPanel",
+        "title": "MAI: Open Configuration Panel"
       },
       {
         "command": "mai.logWorkspaceInfo",
@@ -74,6 +74,17 @@
       {
         "title": "MAI Copilot API Settings",
         "properties": {
+          "mai.api.backend": {
+            "type": "string",
+            "default": "llm-studio",
+            "enum": [
+              "llm-studio",
+              "mai-api",
+              "tabby",
+              "llama-cpp"
+            ],
+            "description": "The backend to use for MAI Copilot."
+          },
           "mai.api.baseUrl": {
             "type": "string",
             "default": "http://127.0.0.1",
@@ -114,20 +125,20 @@
             "default": 0.7,
             "description": "Temperature parameter to control the randomness of completions."
           },
-          "mai.completion.topP": {
-            "type": "number",
-            "default": 0.95,
-            "description": "Top-p parameter for nucleus sampling."
+          "mai.completion.fimPrefix": {
+            "type": "string",
+            "default": "",
+            "description": "Fill-in-the-Middle Prefix token."
           },
-          "mai.completion.documentFilter": {
-            "type": [
-              "object",
-              "array"
-            ],
-            "default": {
-              "pattern": "**/*.{js,ts,py,java}"
-            },
-            "description": "Filter documents to enable inline completions for. Defaults to common programming languages."
+          "mai.completion.fimMiddle": {
+            "type": "string",
+            "default": "",
+            "description": "Fill-in-the-Middle Middle token."
+          },
+          "mai.completion.fimSuffix": {
+            "type": "string",
+            "default": "",
+            "description": "Fill-in-the-Middle Suffix token."
           }
         }
       },

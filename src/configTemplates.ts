@@ -22,14 +22,18 @@ export interface TokenizerUrlConfig {
 	to: string;
 }
 
+export interface FillInTheMiddleConfig {
+    enabled: boolean;
+    prefix: string;
+    middle: string;
+    suffix: string;
+}
+
 export interface Config {
 	modelId: string;
 	backend: "huggingface" | "ollama" | "openai" | "tgi";
 	url: string | null;
-	"fillInTheMiddle.enabled": boolean;
-	"fillInTheMiddle.prefix": string;
-	"fillInTheMiddle.middle": string;
-	"fillInTheMiddle.suffix": string;    
+	fillInTheMiddle: FillInTheMiddleConfig;   
 	requestBody: RequestBody;
 	contextWindow: number;
 	tokensToClear: string[];
@@ -40,10 +44,12 @@ const HfStarCoder215BConfig: Config = {
 	modelId: "bigcode/starcoder2-15b",
 	backend: "huggingface",
 	url: null,
-	"fillInTheMiddle.enabled": true,
-	"fillInTheMiddle.prefix": "<fim_prefix>",
-	"fillInTheMiddle.middle": "<fim_middle>",
-	"fillInTheMiddle.suffix": "<fim_suffix>",
+	fillInTheMiddle: {
+        enabled: true,
+        prefix: "<fim_prefix>",
+        middle: "<fim_middle>",
+        suffix: "<fim_suffix>",
+    },
 	requestBody: {
 		parameters: {
 			max_new_tokens: 60,
@@ -61,11 +67,13 @@ const HfStarCoder215BConfig: Config = {
 const HfCodeLlama13BConfig: Config = {
 	modelId: "codellama/CodeLlama-13b-hf",
 	backend: "huggingface",
-	url: null,
-	"fillInTheMiddle.enabled": true,
-	"fillInTheMiddle.prefix": "<PRE> ",
-	"fillInTheMiddle.middle": " <MID>",
-	"fillInTheMiddle.suffix": " <SUF>",
+	url: null,	
+	fillInTheMiddle: {
+        enabled: true,
+        prefix: "<PRE>",
+        middle: "<MID>",
+        suffix: "<SUF>",
+    },
 	requestBody: {
 		parameters: {
 			max_new_tokens: 60,
@@ -84,14 +92,16 @@ const HfDeepSeekConfig: Config = {
 	modelId: "deepseek-ai/deepseek-coder-6.7b-base",
 	backend: "huggingface",
 	url: null,
-	"fillInTheMiddle.enabled": true,
-	"fillInTheMiddle.prefix": "<｜fim▁begin｜>",
-	// DeepSeek names the suffix token fim_hole, 
-	// as it indicates the position to fill in
-	"fillInTheMiddle.suffix": "<｜fim▁hole｜>",
-	"fillInTheMiddle.middle": "<｜fim▁end｜>",
-	// DeepSeek should support 16k, 
-	// keeping at 8k because of resource constraints
+	fillInTheMiddle: {
+        enabled: true,
+        prefix: "<｜fim▁begin｜>",
+		// DeepSeek names the suffix token fim_hole, 
+		// as it indicates the position to fill in
+        middle: "<｜fim▁hole｜>",
+        suffix: "<｜fim▁end｜>",
+		// DeepSeek should support 16k, 
+		// keeping at 8k because of resource constraints
+    },
 	contextWindow: 1024,
 	tokensToClear: ["<|EOT|>"],
 	tokenizer: {
@@ -124,6 +134,12 @@ const OllamaCodeLlama7BConfig: Config = {
 	modelId: "codellama:7b",
 	backend: "ollama",
 	url: "http://localhost:11434/api/generate",
+	fillInTheMiddle: {
+        enabled: false,
+        prefix: "",
+        middle: "",
+        suffix: "",
+    },
 	requestBody: {
 		options: {
 			num_predict: 60,
@@ -137,21 +153,7 @@ const OllamaCodeLlama7BConfig: Config = {
 	}
 };
 
-export type RequestBody =
-    | {
-          parameters: {
-              max_new_tokens: number;
-              temperature: number;
-              top_p: number;
-          };
-      }
-    | {
-          options: {
-              num_predict: number;
-              temperature: number;
-              top_p: number;
-          };
-      };
+export type RequestBody = Record<string, any>;
 
 export const templates: Record<string, Config | undefined> = {
     "hf/bigcode/starcoder2-15b": HfStarCoder215BConfig,
@@ -161,3 +163,13 @@ export const templates: Record<string, Config | undefined> = {
     "hf/deepseek-ai/deepseek-coder-6.7b-base": HfDeepSeekConfig,
     "ollama/codellama:7b": OllamaCodeLlama7BConfig,
 };
+
+export function getDefaultConfigForBackend(backend: string): Config {
+    const templates: Record<string, Config> = {
+        'llm-studio': HfStarCoder215BConfig,
+        'mai-api': HfDeepSeekConfig,
+        'tabby': HfCodeLlama13BConfig,
+        'llama-cpp': OllamaCodeLlama7BConfig,
+    };
+    return templates[backend] || templates['llm-studio'];
+}

@@ -25,7 +25,7 @@ export class ApiClient {
         Logger.debug(`ApiClient Config: ${config}`);
         this.baseUrl = config.get<string>("api.baseUrl") || "http://0.0.0.0";
         this.port = config.get<number>("api.port") || 8000;
-        this.completionEndpoint = config.get<string>("api.completionEndpoint") || "/api/generate/";
+        this.completionEndpoint = config.get<string>("api.completionEndpoint") || "/v1/completions/";
     }
 
     private getFullUrl(): string {

@@ -4,11 +4,12 @@ import { initializeFileManager } from './workers/fileManager';
 import { initializeEventLogger } from './workers/eventLogger';
 import { Logger } from './logger';
 import { MaiPanel } from './views/maiPanel';
+import { ConfigPanel } from './views/configPanel';
 import { maiCodeCompletionProvider} from './workers/codeCompletionProvider';
 import { CompletionResponse } from './types';
 
 export async function activate(context: vscode.ExtensionContext) {
-    Logger.info('MAI Copilot extension is now active!');
+    Logger.info('MAI Copilot extension is now active!');	
 
     const workspaceFolders = vscode.workspace.workspaceFolders;
 
@@ -25,21 +26,17 @@ export async function activate(context: vscode.ExtensionContext) {
     // Initialize event logger
     initializeEventLogger(context, workspaceFolder);
 
-	const config = vscode.workspace.getConfiguration('mai');
-	const documentFilter = config.get<vscode.DocumentFilter | vscode.DocumentFilter[]>(
-		'completion.documentFilter'
-	) || { pattern: '**' }; // Fallback to match all files
-
 	vscode.languages.registerInlineCompletionItemProvider(
 		{ scheme: "file", pattern: "**/*" },
 		maiCodeCompletionProvider
 	);
 
 	// Register Commands
-	const helloWorldCommand = vscode.commands.registerCommand('mai.helloWorld', () => {
-		vscode.window.showInformationMessage('Hello from MAI Copilot!');
-	});
-	context.subscriptions.push(helloWorldCommand);
+	const openConfigPanelCommand = vscode.commands.registerCommand('mai.openConfigurationPanel', () => {
+        ConfigPanel.show(context);
+    });
+    context.subscriptions.push(openConfigPanelCommand);
+
 	
 	const logWorkspaceInfoCommand = vscode.commands.registerCommand('mai.logWorkspaceInfo', () => {
 		const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -73,5 +70,5 @@ export async function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
-	console.log('MAI Copilot extension is now deactivated.');
+	Logger.info('MAI Copilot extension is now deactivated.');
 }

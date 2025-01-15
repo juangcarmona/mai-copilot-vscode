@@ -9,16 +9,27 @@ export const maiCodeCompletionProvider: vscode.InlineCompletionItemProvider = {
 
         const config = vscode.workspace.getConfiguration("mai");
 
-        const selectedModel = config.get<string>("model") || "hf/bigcode/starcoder2-15b";
-        const modelConfig = templates[selectedModel];
+        const modelConfig = {
+            modelId: config.get<string>("model") || "hf/bigcode/starcoder2-15b",
+            backend: config.get<string>("api.backend") || "huggingface",
+            url: config.get<string>("api.baseUrl") || "http://127.0.0.1",
+            port: config.get<number>("api.port") || 1234,
+            endpoint: config.get<string>("api.completionEndpoint") || "/v1/completions/",
+            fillInTheMiddle: {
+                enabled: config.get<boolean>("completion.fimEnabled") || false,
+                prefix: config.get<string>("completion.fimPrefix") || "",
+                middle: config.get<string>("completion.fimMiddle") || "",
+                suffix: config.get<string>("completion.fimSuffix") || "",
+            },
+            requestBody: {
+                parameters: {
+                    max_new_tokens: config.get<number>("completion.maxTokens") || 50,
+                    temperature: config.get<number>("completion.temperature") || 0.7,
+                },
+            },
+        };
 
-        if (!modelConfig) {
-            Logger.error(`Model configuration not found for: ${selectedModel}`);
-            vscode.window.showErrorMessage(`Model configuration not found for: ${selectedModel}`);
-            return;
-        }
-
-        Logger.info(`Using model: ${selectedModel}`);
+        Logger.info(`Using model: ${modelConfig.modelId}`);
 
         const requestDelay = config.get<number>("requestDelay") || 500;
 
@@ -42,10 +53,10 @@ export const maiCodeCompletionProvider: vscode.InlineCompletionItemProvider = {
         );
 
         let fimInput = `${prefix}${suffix}`;
-        if (modelConfig["fillInTheMiddle.enabled"]) {
-            const fimPrefix = modelConfig["fillInTheMiddle.prefix"] || "";
-            const fimMiddle = modelConfig["fillInTheMiddle.middle"] || "";
-            const fimSuffix = modelConfig["fillInTheMiddle.suffix"] || "";
+        if (modelConfig.fillInTheMiddle.enabled) {
+            const fimPrefix = modelConfig.fillInTheMiddle.prefix || "";
+            const fimMiddle = modelConfig.fillInTheMiddle.middle || "";
+            const fimSuffix = modelConfig.fillInTheMiddle.suffix || "";
 
             fimInput = `${fimPrefix}${prefix}${fimMiddle}${suffix}${fimSuffix}`;
             Logger.debug(`FIM Input: ${fimInput}`);
